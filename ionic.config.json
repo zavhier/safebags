@@ -1,0 +1,8 @@
+{
+  "name": "safebags",
+  "integrations": {
+    "cordova": {},
+    "capacitor": {}
+  },
+  "type": "angular"
+}

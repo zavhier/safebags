@@ -1,0 +1,29 @@
+ion-card-title{
+    font-size: 34px;
+    text-align: center;
+}
+
+.signin-btns{
+   margin-top: 25px;
+   text-align: center;
+   color: #F0F4FA;
+}
+.loginbtn{
+   --ion-color-primary: #215ab7
+}
+ion-content{
+    --ion-background-color:#E1EAF9
+    margin-top:100px!important
+}
+ion-card{
+    --ion-backgroud-color:transparent;
+    box-shadow:none!important;
+    text-align: center;
+}
+
+.ion-img-header{
+    height: 20vh!important;
+    width: auto;
+    margin: auto;
+    display: block;
+}

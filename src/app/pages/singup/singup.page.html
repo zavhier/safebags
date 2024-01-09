@@ -1,0 +1,55 @@
+
+<ion-content scroll-y="false">
+  <ion-card class="ion-no-margin">
+     <ion-img src="assets/images/header.png"></ion-img>
+     <ion-card-header style="margin-top: -70px;">
+        <ion-card-title>
+         <span style="font-size: 20px;"> Bienvenido a safebags!</span>
+        </ion-card-title>
+        
+     </ion-card-header>
+     <div class="msgRegistrarUsuario">
+      <span tyle="font-size: 10px;">
+        ¡Estamos encantados de que hayas decidido unirte a safebags! Por favor, completa el siguiente formulario para crear tu cuenta. Todos los campos son obligatorios.
+      </span>
+     </div>
+     <ion-card-content>
+        <form [formGroup]="ionicForm" (ngSubmit)="submitForm()" novalidate>    
+            <div>
+                <ion-item>
+                  <ion-input labelPlacement="Nombre" placeholder="Nombre" formControlName="nombre"></ion-input>
+                </ion-item>
+                <ion-item>
+                    <ion-col>
+                      <ion-checkbox labelPlacement="start">Masculino</ion-checkbox>
+                    </ion-col>
+                    <ion-col>
+                      <ion-checkbox labelPlacement="start">Femenino</ion-checkbox>
+                    </ion-col>
+                </ion-item>
+                <ion-item>
+                  <ion-input labelPlacement="Email" placeholder="Email" formControlName="email"></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-input labelPlacement="Teléfono" placeholder="Teléfono" formControlName="telref"></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-input labelPlacement="Celular" placeholder="Celular" formControlName="telcel" ></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-input labelPlacement="Pasword" placeholder="Pasword" type="password" formControlName="password" ></ion-input>
+                </ion-item>
+            </div>  
+            <div class="signin-btns">
+              <ion-button size="small" fill="solid" shape="round" class="loginbtn"type="submit" >Aceptar</ion-button>
+              <ion-button size="small" fill="outline"   shape="round" color="dark" (click)="onVolver()">Volver</ion-button>
+            </div>
+            <ion-toast [isOpen]="isToastOpen"  message="¡Por favor proporcione todos los valores requeridos!"   [duration]="5000"    color ="danger"  >
+            <ion-toast [isOpen]="isToastOpenError"  message="¡Se produjo un error intente mas tarde!"   [duration]="5000"    color ="danger"  ></ion-toast>
+            <ion-toast [isOpen]="isToastOpenSuccess"  message="¡Felicitacion ya sos perte de la familia!"   [duration]="5000"  color ="success"  ></ion-toast>
+            </ion-toast>     
+        </form>
+     </ion-card-content>
+  </ion-card>
+ </ion-content>
+ 

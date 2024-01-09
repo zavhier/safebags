@@ -1,0 +1,32 @@
+ion-content
+{
+     --ion-background-color:#E1EAF9
+    
+}
+
+ion-card{
+     --ion-backgroud-color:transparent;
+     box-shadow:none!important;
+     text-align: center;
+}
+.signin-btns{
+     margin-top: 25px;
+     text-align: center;
+     color: #F0F4FA;
+}
+.loginbtn{
+     --ion-color-primary: #215ab7
+}
+.text-tag{
+    margin-top: 35px;
+    text-align: center;
+    span{
+          font-size: 13px;
+          font-weight: normal;
+          color: #898585;
+    }
+}
+.imgwifi{
+     width: 10%;
+     opacity: .5;
+}

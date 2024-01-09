@@ -1,0 +1,66 @@
+
+<ion-content >
+  <ion-card class="ion-no-margin">
+     <ion-img src="assets/images/header.png"></ion-img>
+     <ion-card-header>
+        <ion-card-title>
+          <ion-img src="assets/images/6676023.png" style="margin-top: -47px;" class="ion-img-header">Javier</ion-img>  
+        </ion-card-title>
+     </ion-card-header>
+     <ion-card-content>
+       <ion-accordion-group>
+          <ion-accordion value="first">
+            <ion-item slot="header">
+                <label>Datos personales</label>
+            </ion-item>
+            <div class="ion-padding" slot="content">
+               <ion-item>
+                  <label>Leandro</label>
+               </ion-item>
+               <ion-item>
+                <label>Perrusi</label>
+               </ion-item>
+               <ion-item>
+                <label>Direccion 123</label>
+              </ion-item>
+              <ion-item>
+                <label>Tel: 45857585</label>
+             </ion-item>
+             <ion-item>
+               <label>Cel: 113718645</label>
+              </ion-item>
+              <ion-footer style="height: 46px;">
+                <ion-icon name="bookmark-sharp" style="margin-top: 10px; color: rgb(33, 85, 33);"></ion-icon>
+              </ion-footer>
+             </div>
+          </ion-accordion>
+          <ion-accordion value="second">
+              <ion-item slot="header">
+                <label>Dispositivos</label>
+              </ion-item>
+              <div class="ion-padding" slot="content">
+                <ion-item>
+                  <ion-grid>
+                    <ion-row>
+                      <ion-col>Guitarra</ion-col>
+                      <ion-col>Blu-23232</ion-col>
+                      <ion-col>
+                        <ion-icon name="search-circle-sharp"></ion-icon>
+                        <ion-icon name='bluetooth-outline'></ion-icon>
+                        <ion-icon name='checkmark-done-circle-sharp'></ion-icon>
+                        <ion-icon name="trash-sharp"></ion-icon>
+                      </ion-col>
+                      
+                    </ion-row>
+                  </ion-grid>
+                </ion-item>
+                <ion-footer style="height: 46px;">
+                  <ion-icon name="add-circle-sharp" style="margin-top: 10px; color: rgb(33, 85, 33);" (click)="onSave()"></ion-icon>
+                </ion-footer>
+              </div>
+          </ion-accordion>
+       </ion-accordion-group>        
+     </ion-card-content>
+  </ion-card>
+ </ion-content>
+ 

@@ -1,0 +1,42 @@
+
+<ion-content scroll-y="false">
+ <ion-card class="ion-no-margin">
+    <ion-img src="assets/images/header.png"></ion-img>
+    <ion-card-header>
+       <ion-card-title style="color:#36465f;"> 
+         ¡Hola! <br>
+          Bienvenido de nuevo
+       </ion-card-title>
+    </ion-card-header>
+    <div>
+      
+      <!-- <ion-img class="imgwifi" src="assets/images/wifi.png"></ion-img> -->
+    </div>
+    <ion-card-content>
+         <div>
+            <ion-item>
+               <ion-input labelPlacement="Email" type="text" placeholder="Email" [(ngModel)]="email" required></ion-input>
+            </ion-item>
+            <ion-item>
+               <ion-col>
+                  <ion-input #input labelPlacement="Password" placeholder="Password" type=password [(ngModel)]="password" required></ion-input>
+               </ion-col>
+               <ion-icon name="eye" (click)="togglePasswordMode(input)" style="color:#bcceed;"></ion-icon>
+            </ion-item>
+         </div>
+         <div class="signin-btns">
+            <ion-button size="small" fill="solid" shape="round" class="loginbtn" (click)="onLogin()">LOGIN</ion-button>
+            <ion-button size="small" fill="clear"   shape="round" color="dark" (click)="onSinup()">SING UP</ion-button>
+         </div>
+         <div class="text-tag">
+             <span (click)="onRecuperarUsuario()">¿Olvidaste tu nombre de usuario?</span>
+         </div>
+         <ion-toast
+         [isOpen]="isToastOpen"
+         message="¡El nombre de usuario o contraseña es incorrecto!"
+         [duration]="5000"
+         color ="danger"
+           ></ion-toast>
+    </ion-card-content>
+ </ion-card>
+</ion-content>
