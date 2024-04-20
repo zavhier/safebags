@@ -1,7 +1,11 @@
-ion-content
-{
-     --ion-background-color:#E1EAF9
-    
+
+/*ion-content{
+ --ion-background-color:#E1EAF9  
+   
+}*/
+
+.item-inner{
+     --border-color: #ff0000!important; /* Cambiar el color a rojo (#ff0000) */
 }
 
 ion-card{
@@ -30,3 +34,17 @@ ion-card{
      width: 10%;
      opacity: .5;
 }
+
+ion-card {
+     height: 100%; 
+}
+   
+ion-card-content {
+     height: 100%; 
+     display: flex; 
+     flex-direction: column; 
+}
+
+ion-item {
+     --background:#c1c1d!important;
+ }

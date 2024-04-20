@@ -12,5 +12,5 @@ export class Usuario {
      telcel:string;
      telref:string;
      urlimg:string;
-     idEmpresa:number
+     idempresa:number
 }

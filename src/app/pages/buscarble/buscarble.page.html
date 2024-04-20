@@ -1,0 +1,57 @@
+
+  <ion-content [fullscreen]="true" class="backgroun ion-no-margin" scroll-y="false">  
+        
+          <ion-img src="assets/images/header1.png"></ion-img>
+          <p *ngIf="!loading" style="text-align: center;font-size: larger;font-family: system-ui;"><span>¡Hemos encontrados los siguientes dispositivos!</span></p>
+          <p *ngIf="loading" style="text-align: center;font-size: larger;font-family: system-ui;"><span>¡Buscando dispositivos...!</span></p>
+         
+          <ion-content *ngIf="loading" scroll-y="false">
+                 <span class="loader"></span>
+          </ion-content>
+         
+
+          <!-- <ion-img  src="assets/images/gif/ble-black.gif"  *ngIf="loading"></ion-img> -->
+          
+          <ion-grid [fixed]="true" *ngIf="!loading">
+            <ion-row style="background-color: #46546b;color: azure; text-align: center;">
+              <ion-col>Dispositivo</ion-col>
+              <ion-col>Señal</ion-col>
+              <ion-col>Ubicación</ion-col>
+            </ion-row>
+            <ion-row *ngFor="let device of productos" style="text-align: center;">
+              <ion-col> {{ device.serial }} </ion-col>
+
+              <ion-col *ngIf="device.rssi <= -30 && device.rssi  >-67">
+                <ion-icon style="color: green;" name="bluetooth-outline"></ion-icon>
+              </ion-col>
+              <ion-col *ngIf="device.rssi <= -67 && device.rssi >= -90">
+                <ion-icon style="color: rgb(236, 240, 16);" name="bluetooth-outline"></ion-icon>
+              </ion-col>
+              <ion-col *ngIf="device.rssi <= -90 && device.rssi >= -150">
+                <ion-icon style="color: rgb(238, 37, 10);" name="bluetooth-outline"></ion-icon>
+              </ion-col>
+              <ion-col> <ion-icon name="location-outline" (click)="onBuscarDevice(device)"></ion-icon> </ion-col>
+            </ion-row> 
+          </ion-grid>
+  </ion-content>
+
+<ion-fab slot="fixed" vertical="bottom" horizontal="end">
+<ion-fab-button>
+  <ion-icon name="chevron-up-circle"></ion-icon>
+</ion-fab-button>
+<ion-fab-list side="top">
+  <ion-fab-button>
+    <ion-icon name="reload-outline"  style="color: #3880ff;" (click)="onBuscar()"></ion-icon>
+  </ion-fab-button>
+  <ion-fab-button>
+        <ion-icon name="arrow-undo-outline"  style="color: #3880ff;"(click)="onSalir()"></ion-icon>
+  </ion-fab-button>
+</ion-fab-list>
+</ion-fab>
+
+
+
+
+
+
+

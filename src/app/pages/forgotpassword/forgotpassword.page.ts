@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { EmailService } from 'src/app/service/email.service';
 import { UserService } from 'src/app/service/user.service';
 
 @Component({
@@ -11,7 +13,9 @@ export class ForgotpasswordPage implements OnInit {
   formForgetPassword:FormGroup;
   isToastOpen:boolean= false;
   isToastOpenOk:boolean= false;
-  constructor(public formBuilder:FormBuilder, private  userService:UserService) { }
+  isToastErrorMail:boolean= false;
+  _cambio:boolean = false
+  constructor(public formBuilder:FormBuilder, private  userService:UserService, private router:Router) { }
 
   ngOnInit() {
     this.isToastOpen = false
@@ -31,7 +35,9 @@ export class ForgotpasswordPage implements OnInit {
     return this.formForgetPassword.controls;
   }
 
-
+  ionViewWillEnter() {
+     this.formForgetPassword.reset();
+  }
   submitForm = () => {
     if (this.formForgetPassword.valid) {
         return false;
@@ -49,4 +55,40 @@ export class ForgotpasswordPage implements OnInit {
     })
   }
 
+  onVolver(){
+     this.router.navigate(["/login"])
+  }
+
+  onRecuperarUsuarioSubmit = () => {
+    if (this.formForgetPassword.valid) {
+       let correo =  this.formForgetPassword.value['email'];
+       this.userService.recuperarUsuario(correo).subscribe(resp=>{
+          if(resp.data.estado == 200){
+            this.formForgetPassword.reset();
+            this.isToastOpenOk = true;
+            setTimeout(() => {
+                 this.isToastOpenOk = false;
+            },  3000);
+          }else{
+            this.isToastErrorMail = true;
+            setTimeout(() => {
+                 this.isToastErrorMail = false;
+            },  3000);
+          }
+   
+       },(e)=>{
+           
+       })
+       
+    } else {
+       this.isToastOpen = true;
+       setTimeout(() => {
+            this.isToastOpen = false;
+       },  3000);
+        
+    }
+  };
+
 }
+
+

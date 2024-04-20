@@ -8,6 +8,7 @@ import { BuscarPageRoutingModule } from './buscar-routing.module';
 
 import { BuscarPage } from './buscar.page';
 
+
 @NgModule({
   imports: [
     CommonModule,

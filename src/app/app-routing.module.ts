@@ -29,13 +29,35 @@ const routes: Routes = [
     loadChildren: () => import('./pages/profile/profile.module').then( m => m.ProfilePageModule)
   },
   {
-    path: 'search',
-    loadChildren: () => import('./pages/search/search-routing.module').then( m => m.SearchPageRoutingModule)
+    path: 'profile/:data',
+    loadChildren: () => import('./pages/profile/profile.module').then( m => m.ProfilePageModule)
   },
+ 
   {
     path: 'buscar',
     loadChildren: () => import('./pages/buscar/buscar.module').then( m => m.BuscarPageModule)
-  }
+  },
+  {
+    path: 'maps/:id',
+    loadChildren: () => import('./pages/maps/maps.module').then( m => m.MapsPageModule)
+  },
+  {
+    path: 'producto',
+    loadChildren: () => import('./pages/producto/producto.module').then( m => m.ProductoPageModule)
+  },
+  {
+    path: 'producto/:id',
+    loadChildren: () => import('./pages/producto/producto.module').then( m => m.ProductoPageModule)
+  },
+  {
+    path: 'buscarble',
+    loadChildren: () => import('./pages/buscarble/buscarble.module').then( m => m.BuscarblePageModule)
+  },
+  {
+    path: 'splash',
+    loadChildren: () => import('./splash/splash.module').then( m => m.SplashPageModule)
+  },
+
 ];
 
 @NgModule({

@@ -1,3 +1,5 @@
+
+
 ion-card-title{
     font-size: 34px;
     text-align: center;
@@ -27,3 +29,35 @@ ion-card{
     margin: auto;
     display: block;
 }
+
+.buttonSearch{
+    border: none;
+    --background: transparent;
+    outline: none;
+    color: #5260ff;
+    margin-top: -6px;
+}
+.buttonSearch:hover{
+    --background: transparent;
+}
+
+ion-item {
+    --background:#c1c1d!important;
+}
+
+
+ion-card {
+    height: 100%; /* Establece la altura del ion-card al 100% de su contenedor */
+  }
+  
+  ion-card-content {
+    height: 100%; /* Establece la altura del ion-card-content al 100% de su contenedor */
+    display: flex; /* Usa flexbox para que los elementos dentro del ion-card-content se expandan verticalmente */
+    flex-direction: column; /* Establece la dirección del flexbox a columnar */
+  }
+
+  ion-fab-button{
+    width: 60px;
+    height: 60px;  
+  }
+  

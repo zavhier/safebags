@@ -5,8 +5,9 @@
 export const environment = {
   production: false,
   host:"https://freetags.mysite.com.ar/api/index.php/",
-  company: 1, 
-  rol:'user'
+  company: 2,  //safebags
+  rol:'user',
+  razon_social: 40
 };
 
 

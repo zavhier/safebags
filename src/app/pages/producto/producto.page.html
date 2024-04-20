@@ -1,0 +1,53 @@
+
+<ion-content scroll-y="false"  style="background: #1c1c1d;">
+      <ion-card class="ion-no-margin">
+        <ion-img src="assets/images/header1.png"></ion-img>
+        <ion-card-header class="centrar-contenido">
+            <ion-card-title *ngIf="!_loading">
+              <p style="font-size: 20px; color: bisque;">Completa la información necesaria.</p>
+              <p style="font-size: 15px; color: bisque; text-align: center;">No te olvides de escanear el código QR </p>
+            </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <p style="text-align: center; color: bisque;margin-bottom: 72px;"  *ngIf="_loading">
+            Unos segundos, estamos procesado la información
+          </p>
+          <span class="loader" *ngIf="_loading"></span>
+
+          <form [formGroup]="formGroup"  #miFormulario="ngForm"  *ngIf="!_loading">  
+                <ion-item>
+                  <ion-input  appTrimValue labelPlacement="Nombre" placeholder="Nombre"   formControlName="nombre"></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-input  appTrimValue labelPlacement="Descripción" placeholder="Descripción" formControlName="descripcion"></ion-input>
+                </ion-item>
+                <ion-item>
+                  <ion-input labelPlacement="stacked" label="Código" formControlName="serial" placeholder="AC123XXXXX">
+                    <ion-button fill="clear" slot="end" aria-label="Show/hide" (click)="onScanner();">
+                      <ion-icon slot="icon-only" name="barcode-outline" aria-hidden="true"></ion-icon>
+                    </ion-button>
+                  </ion-input>
+                </ion-item>
+          </form>
+        </ion-card-content>
+      </ion-card>
+</ion-content >
+<ion-fab slot="fixed" vertical="bottom" horizontal="end" *ngIf="!_loading">
+  <ion-fab-button>
+    <ion-icon name="chevron-up-circle"></ion-icon>
+  </ion-fab-button>
+  <ion-fab-list side="top">
+    <ion-fab-button>
+      <ion-icon name="reader-outline" style="color: #3880ff;" (click)="onGuardar();"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button>
+          <ion-icon name="barcode-outline"  style="color: #3880ff;"  (click)="onScanner();"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button>
+          <ion-icon name="arrow-undo-outline"  style="color: #3880ff;" (click)="onSalir()"></ion-icon>
+    </ion-fab-button>
+   
+  </ion-fab-list>
+</ion-fab>
+<ion-toast [isOpen]="isToastOpen" message="¡Ups, algo malo paso!" [duration]="5000" color ="danger"></ion-toast>
+<ion-toast [isOpen]="isToastDatosRequeridos"   message="¡Datos requeridos!"  [duration]="5000"  color ="warning"></ion-toast>

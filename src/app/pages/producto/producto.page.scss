@@ -1,0 +1,54 @@
+.centrar-contenido {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+ion-card-content {
+    height: 100%; /* Establece la altura del ion-card-content al 100% de su contenedor */
+    display: flex; /* Usa flexbox para que los elementos dentro del ion-card-content se expandan verticalmente */
+    flex-direction: column; /* Establece la dirección del flexbox a columnar */
+}
+
+ion-item {
+    --background:#c1c1d!important;
+}
+
+
+.loader {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    box-shadow: inset 0 0 20px -5px rgba(255, 255, 255, 0.5),
+            inset 0 -40px 40px -20px rgba(255, 255, 255, 0.5);
+    background: linear-gradient(#FF3D00 120px, transparent 0) no-repeat;
+    background-position: 0px 120px;
+    animation: fillLq 10s linear infinite alternate;
+    left: 34%;
+    top: -37%;
+  }
+  .loader:before {
+    position: absolute;
+    content: '';
+    width: 40%;
+    height: 25%;
+    left: 10px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50%;
+    transform: rotate(-45deg);
+  }
+
+  @keyframes fillLq {
+    0% , 10% { background-position: 0 120px}
+    90% , 100% { background-position: 0 0}
+  }
+
+ 
+
+  ion-fab-button{
+    width: 60px;
+    height: 60px;  
+  }
+  

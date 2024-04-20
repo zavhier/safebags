@@ -76,13 +76,13 @@
   --ion-color-light-tint: #f5f6f9;
 }
 
-@media (prefers-color-scheme: dark) {
+//@media (prefers-color-scheme: dark) {
   /*
    * Dark Colors
    * -------------------------------------------
    */
 
-  body {
+  body{
     --ion-color-primary: #428cff;
     --ion-color-primary-rgb: 66,140,255;
     --ion-color-primary-contrast: #ffffff;
@@ -113,7 +113,7 @@
 
     --ion-color-warning: #ffd534;
     --ion-color-warning-rgb: 255,213,52;
-    --ion-color-warning-contrast: #000000;
+    --ion-color-warning-contrast: #1c1c1d;
     --ion-color-warning-contrast-rgb: 0,0,0;
     --ion-color-warning-shade: #e0bb2e;
     --ion-color-warning-tint: #ffd948;
@@ -127,14 +127,14 @@
 
     --ion-color-dark: #f4f5f8;
     --ion-color-dark-rgb: 244,245,248;
-    --ion-color-dark-contrast: #000000;
+    --ion-color-dark-contrast: #1c1c1d;
     --ion-color-dark-contrast-rgb: 0,0,0;
     --ion-color-dark-shade: #d7d8da;
     --ion-color-dark-tint: #f5f6f9;
 
     --ion-color-medium: #989aa2;
     --ion-color-medium-rgb: 152,154,162;
-    --ion-color-medium-contrast: #000000;
+    --ion-color-medium-contrast: #1c1c1d;
     --ion-color-medium-contrast-rgb: 0,0,0;
     --ion-color-medium-shade: #86888f;
     --ion-color-medium-tint: #a2a4ab;
@@ -152,8 +152,8 @@
    * -------------------------------------------
    */
 
-  .ios body {
-    --ion-background-color: #000000;
+  .ios body{
+    --ion-background-color: #1c1c1d;
     --ion-background-color-rgb: 0,0,0;
 
     --ion-text-color: #ffffff;
@@ -179,7 +179,7 @@
     --ion-color-step-900: #e6e6e6;
     --ion-color-step-950: #f2f2f2;
 
-    --ion-item-background: #000000;
+    
 
     --ion-card-background: #1c1c1d;
   }
@@ -196,7 +196,7 @@
    * -------------------------------------------
    */
 
-  .md body {
+  .md body{
     --ion-background-color: #121212;
     --ion-background-color-rgb: 18,18,18;
 
@@ -233,7 +233,17 @@
 
     --ion-card-background: #1e1e1e;
   }
-}
+  .md body.dark ion-input {
+    --ion-color-base: #2a2a2a; /* Cambia el color de fondo del input */
+    --ion-color-base-rgb: 42, 42, 42; /* Cambia el color de fondo del input */
+    --ion-color-contrast: #ffffff; /* Cambia el color del texto del input */
+  }
+  
+  /* Ajusta el color de fondo y el color del texto para el placeholder de los inputs en un tema oscuro */
+  .md body.dark ion-input::part(native)::-webkit-input-placeholder {
+    color: #ccc; /* Cambia el color del placeholder del input */
+  }
+//}
 
 html {
   /* 

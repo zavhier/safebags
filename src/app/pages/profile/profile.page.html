@@ -1,66 +1,106 @@
 
-<ion-content >
-  <ion-card class="ion-no-margin">
-     <ion-img src="assets/images/header.png"></ion-img>
-     <ion-card-header>
+<ion-content scroll-y="false">
+  <ion-progress-bar value=".25" buffer=".5" *ngIf="_loading"></ion-progress-bar>
+  <ion-card class="ion-no-margin"  *ngIf="!_loading">
+     <ion-img src="assets/images/header1.png"></ion-img>
+     <ion-card-header style="margin-top: -20px;">
         <ion-card-title>
-          <ion-img src="assets/images/6676023.png" style="margin-top: -47px;" class="ion-img-header">Javier</ion-img>  
+          <ion-img src="assets/images/6676023.png" style="margin-top: -47px; width: 30%; height: 50%;" class="ion-img-header"></ion-img>  
         </ion-card-title>
      </ion-card-header>
      <ion-card-content>
-       <ion-accordion-group>
-          <ion-accordion value="first">
+       <ion-accordion-group  [multiple]="true" [value]="['first']" style="margin-top: -42px;">
+          <ion-accordion value="first" #tabPersonal>
             <ion-item slot="header">
-                <label>Datos personales</label>
+                <label style="color: bisque;"><b>¡Hola!</b>, {{_usuario.nombre}}</label>
             </ion-item>
             <div class="ion-padding" slot="content">
-               <ion-item>
-                  <label>Leandro</label>
-               </ion-item>
-               <ion-item>
-                <label>Perrusi</label>
-               </ion-item>
-               <ion-item>
-                <label>Direccion 123</label>
-              </ion-item>
-              <ion-item>
-                <label>Tel: 45857585</label>
-             </ion-item>
-             <ion-item>
-               <label>Cel: 113718645</label>
-              </ion-item>
-              <ion-footer style="height: 46px;">
-                <ion-icon name="bookmark-sharp" style="margin-top: 10px; color: rgb(33, 85, 33);"></ion-icon>
-              </ion-footer>
+              <ion-list>
+                 <ion-item>
+                    <ion-icon aria-hidden="true" name="person-circle-outline" slot="start"></ion-icon>
+                    <label>{{_usuario.nombre}}</label>
+                </ion-item>
+                <ion-item>
+                  <ion-icon aria-hidden="true" name="mail-sharp" slot="start"></ion-icon>
+                  <label>{{_usuario.email}}</label>
+                </ion-item>
+                <ion-item>
+                  <ion-icon aria-hidden="true" name="call-sharp" slot="start"></ion-icon>
+                  <label>{{_usuario.telcel}}</label>
+                </ion-item>
+              </ion-list>
              </div>
           </ion-accordion>
-          <ion-accordion value="second">
+          <ion-accordion value="second" (click)="onClickTab();">
               <ion-item slot="header">
-                <label>Dispositivos</label>
+                <label  style=" color: bisque;">Dispositivos</label>
               </ion-item>
+              <ion-spinner *ngIf="_cargarLoading"></ion-spinner>
               <div class="ion-padding" slot="content">
-                <ion-item>
-                  <ion-grid>
-                    <ion-row>
-                      <ion-col>Guitarra</ion-col>
-                      <ion-col>Blu-23232</ion-col>
-                      <ion-col>
-                        <ion-icon name="search-circle-sharp"></ion-icon>
-                        <ion-icon name='bluetooth-outline'></ion-icon>
-                        <ion-icon name='checkmark-done-circle-sharp'></ion-icon>
-                        <ion-icon name="trash-sharp"></ion-icon>
-                      </ion-col>
-                      
-                    </ion-row>
-                  </ion-grid>
-                </ion-item>
-                <ion-footer style="height: 46px;">
-                  <ion-icon name="add-circle-sharp" style="margin-top: 10px; color: rgb(33, 85, 33);" (click)="onSave()"></ion-icon>
-                </ion-footer>
-              </div>
+                <ion-card style="margin-left: -32px; margin-top: -24px;">
+                    <ion-card-content style="width: 356px;">
+                      <ion-list>
+                        <ion-item *ngFor="let item of _productos"  style="background-color: #1c1c1d!important;">
+                          <ion-grid>
+                             <ion-row>
+                                <ion-col  size="4">
+                                  <ion-label style="font-size: 12px;">{{item.nombre}}</ion-label>
+                                </ion-col>
+                                <ion-col  size="4">
+                                  <ion-label style="font-size: 12px;">{{item.descripcion}}</ion-label>
+                                </ion-col>
+                                <ion-col  size="2">
+                                  <ion-label color="primary" *ngIf="item.tipo_estado_id == 1"><ion-icon name="checkmark-outline"></ion-icon></ion-label> <!--Falta activar-->
+                                  <ion-label color="danger" *ngIf="item.tipo_estado_id == 3" ><ion-icon name="close-outline"></ion-icon></ion-label><!--Perdido-->
+                                  <ion-label color="success" *ngIf="item.tipo_estado_id == 2"><ion-icon name="checkmark-done-outline"></ion-icon></ion-label><!--Activo-->
+                                </ion-col>
+                                <ion-col  size="2">
+                                  <ion-icon name="shuffle-outline"  (click)="onChange(item)"></ion-icon>
+                                </ion-col>
+                              </ion-row>
+                          </ion-grid>
+                        </ion-item>
+                      </ion-list>
+                    </ion-card-content>
+                </ion-card>
+            </div>
           </ion-accordion>
-       </ion-accordion-group>        
+       </ion-accordion-group>   
      </ion-card-content>
   </ion-card>
  </ion-content>
  
+ <ion-fab slot="fixed" vertical="bottom" horizontal="end">
+  <ion-fab-button>
+    <ion-icon name="chevron-up-circle"></ion-icon>
+  </ion-fab-button>
+  <ion-fab-list side="top">
+    <ion-fab-button size="large" style="width: 60px; height: 60px;">
+      <ion-icon name="add-circle-outline"style="color: #3880ff;"  (click)="onNuevo()"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button size="large">
+      <ion-icon name="sync-outline" style="color: #3880ff;"  (click)="onActualizar()"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button size="large">
+          <ion-icon name="arrow-undo-outline" style="color: #3880ff;" (click)="onSalir()"></ion-icon>
+    </ion-fab-button>
+    <ion-fab-button >
+        <ion-icon name="search-outline" style="color: #3880ff;" (click)="onBuscarbleButtonClick()"></ion-icon>
+    </ion-fab-button>
+  </ion-fab-list>
+</ion-fab>
+
+<ion-toast
+[isOpen]="isToastOpen"
+message="¡Se cambio el estado correctamente!"
+[duration]="5000"
+color ="success"
+  ></ion-toast>
+
+  <ion-toast
+position="top"
+[isOpen]="isToastBle"
+message="¡Por favor encienda el bluetooth!"
+[duration]="5000"
+color ="warning"
+  ></ion-toast>
