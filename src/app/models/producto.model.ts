@@ -15,5 +15,6 @@ export class Producto{
    urlimg:string;
    condicion:number;
    rssi:number;
-
+   email:string;
+   nombre_cliente:string;
 }

@@ -24,15 +24,16 @@ export class ProfilePage implements OnInit {
   _cargarLoading:Boolean = false;
   isToastOpen:boolean = false;
   accionClickTab:boolean = false;
-  messagePerdido = '¡Lo perdiste!, tranquilo cambia el estado'
+  messagePerdido = 'Si perdiste tu equipaje cambia el estado a extraviado'
   messageLoEncontro = '¡Lo encontraste!, qué alegria, cambia el estado '
   isToastBle:boolean= false;
+  isToastDelete:boolean = false;
+  _prod:boolean = false;
   constructor(private route: ActivatedRoute, private userService:UserService,public router:Router,
     private productoService:ProductoService,  private storage:Storage,   
      private nvrCrl:NavController, private loadingPage:LoadingController, private alertController: AlertController, private ble:BLE) { }
 
   async ngOnInit() {
-    debugger;
     this.route.paramMap.subscribe(params => {
       this.idUsuario = params.get('id');
       this.showLoading();
@@ -53,33 +54,44 @@ export class ProfilePage implements OnInit {
      
   }
   onActualizar(){
-     this.onCargarProductos();
+     this.onCargarProductos(this.access_token);
   }
   onClickTab(){
-    /*  this.accionClickTab = !this.accionClickTab;
+      /*this.accionClickTab = !this.accionClickTab;
        if(this.accionClickTab)
-            this.onCargarProductos()
-      */
-      
+            this.onCargarProductos(this.to)
+     */
   }
   
   buscarProfileUsuario(){
     this.storage.get('access_token').then(token => {
       this.userService.get(this.idUsuario, token).subscribe(resp=>{
         this._usuario = resp.data[0];
-        this.onCargarProductos();
+        this.onCargarProductos(token);
         this._loading = false;
     }, (err)=>{
         console.log('Error');
     })
     }); 
  }
-
- onCargarProductos(){
-   this.productoService.getAllByUsuario(this.idUsuario, this.access_token).subscribe(resp=>{
+ onEliminar(item:Producto){ 
+  debugger;
+       this.productoService.delete(item,this.access_token).subscribe(res=>{
+             if(res.data.estado = 200){
+               this.isToastDelete = true;
+               this.onCargarProductos(this.access_token);
+               setTimeout(() => {
+                   this.isToastDelete = false;
+               }, 2000);
+             }
+       })
+ }
+ onCargarProductos(token:any){
+   this.productoService.getAllByUsuario(this.idUsuario, token).subscribe(resp=>{
       this._productos = []
       this._productos = resp.data;
-      console.log('Sus productos son: ' , resp);
+      this.storage.set('prods', this._productos);
+      this._prod =   this._productos.length > 0 ? true : false
   })
 }
   
@@ -126,7 +138,7 @@ export class ProfilePage implements OnInit {
           },
         },
         {
-          text: 'Cambiar',
+          text: 'Extraviado',
           role: 'confirm',
           handler: () => {
             this.cambiarEstado();
@@ -161,14 +173,13 @@ export class ProfilePage implements OnInit {
   }
 
   onBuscarbleButtonClick() {
-    // Verificar el estado del Bluetooth antes de navegar
-    this.ble.isEnabled().then(
+    //this.router.navigate(['/buscarble',this.idUsuario]);
+   this.ble.isEnabled().then(
       () => {
-        // El Bluetooth está habilitado, navegar a la página buscarble
-        this.router.navigate(['/buscarble']);
+        this.router.navigate(['/buscarble',this.idUsuario]);
       },
       () => {
-        // El Bluetooth está deshabilitado, mostrar el toast
+    
         this.isToastBle = true;
         setTimeout(()=>{
           this.isToastBle = false;

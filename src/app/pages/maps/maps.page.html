@@ -14,8 +14,8 @@
     <ion-icon name="chevron-up-circle"></ion-icon>
   </ion-fab-button>
   <ion-fab-list side="top">
-    <ion-fab-button>
-          <ion-icon name="arrow-undo-outline" (click)="onSalir()"></ion-icon>
+    <ion-fab-button (click)="onSalir()">
+          <ion-icon name="arrow-undo-outline" ></ion-icon>
     </ion-fab-button>
   </ion-fab-list>
 </ion-fab>
@@ -24,3 +24,7 @@
 <ion-toast [isOpen]="isToastActivarBle" message="¡Por favor, activa el Bluetooth!" [duration]="5000"color ="danger"  ></ion-toast>
 <ion-toast   [isOpen]="paso"  message="paso"  [duration]="5000"  color ="danger" ></ion-toast>
 
+<ion-toast [isOpen]="iosTasoNoPermisos" message="¡No tenes permisos capo!" [duration]="5000" color ="danger" ></ion-toast>
+
+<ion-toast [isOpen]="ioTostEnvioMal" message="¡enviamos un meil !" [duration]="5000" color ="danger" ></ion-toast>
+<ion-toast [isOpen]="ioTostEnvioMalError" message="no mando nada!" [duration]="5000" color ="danger" ></ion-toast>

@@ -37,7 +37,6 @@ export class ProductoService {
   }
   
   getProductoBySerial(serial:string):Observable<any>{
-    debugger;
     return this.http.get(environment.host + 'productbyqrserial/' + serial).pipe(
           tap((resp:any)=>{
             console.log(resp)
@@ -46,4 +45,10 @@ export class ProductoService {
       })
     )
   }
+ 
+  delete(item:Producto, access_token:any):Observable<any>{
+     const headers = { 'Authorization': 'Bearer ' + access_token}
+     return this.http.delete(environment.host + 'produc/' + item.id,{headers: headers});
+  }
+
 }

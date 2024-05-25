@@ -54,6 +54,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/buscarble/buscarble.module').then( m => m.BuscarblePageModule)
   },
   {
+    path: 'buscarble/:id',
+    loadChildren: () => import('./pages/buscarble/buscarble.module').then( m => m.BuscarblePageModule)
+  },
+  {
     path: 'splash',
     loadChildren: () => import('./splash/splash.module').then( m => m.SplashPageModule)
   },

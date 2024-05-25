@@ -14,7 +14,9 @@ export class EmailService {
 
    }
    send(email:Email):Observable<any>{
-      return  this.http.post(environment.host + "sendmail" , email).pipe(
+    debugger;  
+    return  this.http.post(environment.host + "sendmail" , email).pipe(
+      
         tap((resp:any)=>{
           console.log(resp)             
           },

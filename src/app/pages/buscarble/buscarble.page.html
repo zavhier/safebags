@@ -1,4 +1,4 @@
-
+<!-- 
   <ion-content [fullscreen]="true" class="backgroun ion-no-margin" scroll-y="false">  
         
           <ion-img src="assets/images/header1.png"></ion-img>
@@ -8,43 +8,101 @@
           <ion-content *ngIf="loading" scroll-y="false">
                  <span class="loader"></span>
           </ion-content>
-         
-
-          <!-- <ion-img  src="assets/images/gif/ble-black.gif"  *ngIf="loading"></ion-img> -->
-          
           <ion-grid [fixed]="true" *ngIf="!loading">
             <ion-row style="background-color: #46546b;color: azure; text-align: center;">
+              <ion-col>Nombre</ion-col>
               <ion-col>Dispositivo</ion-col>
-              <ion-col>Señal</ion-col>
               <ion-col>Ubicación</ion-col>
             </ion-row>
             <ion-row *ngFor="let device of productos" style="text-align: center;">
+              <ion-col> {{ device.descripcion }} </ion-col>
               <ion-col> {{ device.serial }} </ion-col>
-
-              <ion-col *ngIf="device.rssi <= -30 && device.rssi  >-67">
-                <ion-icon style="color: green;" name="bluetooth-outline"></ion-icon>
-              </ion-col>
-              <ion-col *ngIf="device.rssi <= -67 && device.rssi >= -90">
-                <ion-icon style="color: rgb(236, 240, 16);" name="bluetooth-outline"></ion-icon>
-              </ion-col>
-              <ion-col *ngIf="device.rssi <= -90 && device.rssi >= -150">
-                <ion-icon style="color: rgb(238, 37, 10);" name="bluetooth-outline"></ion-icon>
-              </ion-col>
               <ion-col> <ion-icon name="location-outline" (click)="onBuscarDevice(device)"></ion-icon> </ion-col>
             </ion-row> 
           </ion-grid>
+  </ion-content> -->
+
+  <!--Nueva version-->
+  <ion-header  style="text-align: center; color: #8f8888; background: #1c1c1d;">
+    <ion-toolbar>
+      <ion-title>  <span style="font-size: 13;color: #8f8888;">{{fechaHoy | date:'medium'}}</span> </ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content scroll-y="false">
+    <ion-card-content>
+      <ion-item>
+        <ion-col size="10"><span style="color: #8f8888;">Bluetooth </span></ion-col>
+        <ion-col  size="2">
+          <ion-toggle  style="width: 46%; margin-left: -19px;"  disabled="true" [checked]="true"></ion-toggle> 
+        </ion-col>
+      </ion-item>
+      <ion-item lines="none">
+          <span style="color: #8f8888;font-size: 11px;text-align: left;"> La búsqueda por <b>Bluetooth</b> puede demorar unos segundo, te iremos mostrado los dispositivos encotrados</span>
+      </ion-item>
+      <div>
+        <ion-item lines="none" style="margin-top: 20px;">
+          <p><span style="color: #8f8888;">MIS DISPOSITIVOS</span> </p>
+        </ion-item>
+        <ion-grid [fixed]="true" style="margin-left: 8px;">
+          <ion-row  style="color: #8f8888;">
+            <ion-col style="text-align: left;">Dispositivo</ion-col>
+            <ion-col style="text-align: left;">Ubicación</ion-col>
+          </ion-row>
+            <ion-row *ngFor="let device of productos" style="text-align: center;">
+            <ion-col style="text-align: left;"> {{ device.descripcion }} {{ device.serial }} </ion-col>
+            <ion-col style="text-align: left;"> <ion-icon name="location-outline" (click)="onBuscarDevice(device)"></ion-icon> </ion-col>
+          </ion-row>
+           <!-- <ion-row *ngFor="let device of bleDevices" style="text-align: center;">
+            <ion-col> {{ device.id }}</ion-col>
+            <ion-col> <ion-icon name="location-outline" (click)="onBuscarDevice(device)"></ion-icon> </ion-col>
+          </ion-row>  -->
+        </ion-grid>
+      </div>
+    </ion-card-content>
+    <ion-card-content >
+      <ion-item lines="none" class="ion-text-center">
+        <ion-col style="display: flex; align-items: center;">
+          <span style="color: #8f8888;">Dispositivos</span>
+          <ion-spinner *ngIf="_buscar" name="bubbles" style="margin-left: 5px; color: white;"></ion-spinner> 
+        </ion-col>
+        <ion-col style="text-align: right;">
+          <ion-toggle  style="width: 46%; text-align: right;" [(ngModel)]="_buscar" (click)="searchBluetoothDevicesScan()"></ion-toggle>
+        </ion-col>
+      </ion-item>
+     </ion-card-content>
   </ion-content>
+  
+ <!-- <ion-content  class="backgroun ion-no-margin" scroll-y="false">  
+    <ion-card-content>
+      <ion-item>
+        <p><span>Dispositivos encontrados</span> </p>
+      </ion-item>
+    </ion-card-content>
+    <ion-grid [fixed]="true">
+      <ion-row>
+        <ion-col>Dispositivo</ion-col>
+        <ion-col>Ubicación</ion-col>
+      </ion-row>
+      <ion-row *ngFor="let device of productos" style="text-align: center;">
+        <ion-col> {{ device.descripcion }} {{ device.serial }} </ion-col>
+        <ion-col> <ion-icon name="location-outline" (click)="onBuscarDevice(device)"></ion-icon> </ion-col>
+      </ion-row> 
+    </ion-grid>
+  </ion-content> 
+  <br> -->
+
+
 
 <ion-fab slot="fixed" vertical="bottom" horizontal="end">
 <ion-fab-button>
   <ion-icon name="chevron-up-circle"></ion-icon>
 </ion-fab-button>
 <ion-fab-list side="top">
-  <ion-fab-button>
-    <ion-icon name="reload-outline"  style="color: #3880ff;" (click)="onBuscar()"></ion-icon>
+  <ion-fab-button (click)="onBuscar()">
+    <ion-icon name="reload-outline"  style="color: #3880ff;" ></ion-icon>
   </ion-fab-button>
-  <ion-fab-button>
-        <ion-icon name="arrow-undo-outline"  style="color: #3880ff;"(click)="onSalir()"></ion-icon>
+  <ion-fab-button (click)="onSalir()">
+        <ion-icon name="arrow-undo-outline"  style="color: #3880ff;"></ion-icon>
   </ion-fab-button>
 </ion-fab-list>
 </ion-fab>

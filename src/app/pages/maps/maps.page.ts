@@ -1,7 +1,6 @@
 import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@ionic-native/native-geocoder/ngx';
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { BLE } from '@ionic-native/ble/ngx';
 import {
   GoogleMaps,
   GoogleMap,
@@ -14,7 +13,6 @@ import {
   Environment
 } from '@ionic-native/google-maps';
 import { GmapsServiceService } from 'src/app/service/gmaps-service.service';
-import { Ble } from 'src/app/models/ble.model';
 import { AlertController } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Storage } from '@ionic/storage-angular';
@@ -22,6 +20,12 @@ import { Subscription } from 'rxjs';
 import { Producto } from 'src/app/models/producto.model';
 import { ProductoService } from 'src/app/service/producto.service';
 import { EstadosBlueEmun } from 'src/app/emuns/estadoblu.emun';
+
+
+declare var cordova: any;
+import { Platform } from '@ionic/angular';
+import { Email } from 'src/app/models/email.model';
+import { EmailService } from 'src/app/service/email.service';
 @Component({
   selector: 'app-maps',
   templateUrl: './maps.page.html',
@@ -39,7 +43,6 @@ export class MapsPage implements OnInit {
   markers: any[] = [];
   mapClickListener: any;
   markerClickListener: any;
-  pairedList: Ble[] = [];;
   listToggle: boolean = false;
   pairedDeviceId: number = 0;
   dataSend = "";
@@ -51,29 +54,52 @@ export class MapsPage implements OnInit {
   mostrarMap:boolean = false;
   private scanSubscription: Subscription;
   scanSubscriptionBol:Boolean = true;
-  devices: any[] = []; // Esta será tu lista de dispositivos encontrados
   productos: Producto [] = []; // Esta será tu lista de dispositivos encontrados
   producto : Producto = new Producto();
   serial:any;
   estado:number;
   estadoData:string;
+  iosTasoNoPermisos:boolean = false;
+  email:Email  =  new  Email();
   urlIcono:string='assets/images/location-pin.png';
-  constructor( private geolocation: Geolocation, private nativeGeocoder: NativeGeocoder , private gmaps:GmapsServiceService, 
-               private renderer: Renderer2,  private alertController:AlertController,  private activaRouter:ActivatedRoute,
-               private router:Router, private productoService:ProductoService,
-               private storage:Storage) { }
+  device : Producto = new Producto();
+  ioTostEnvioMal:boolean = false;
+  ioTostEnvioMalError:boolean = false;
+  prod:Producto = new Producto();
+
+  constructor( private geolocation: Geolocation, 
+               private nativeGeocoder: NativeGeocoder,
+               private gmaps:GmapsServiceService, 
+               private renderer: Renderer2,  
+               private router:Router,
+               private productoService:ProductoService,
+               private platform: Platform,
+               private activaRouter:ActivatedRoute,
+               private storage:Storage,
+               private emailService :EmailService,
+               private  alertController:AlertController) {
+          
+  }
  
   async ngOnInit() {
-    this.activaRouter.paramMap.subscribe(params => {
-      this.serial = params.get('id');
-         this.buscarEstado();
+   
+   this.requestPermission(); 
+   this.activaRouter.paramMap.subscribe(params => {
+         let  srl = params.get('id');
+         this.buscarEstado(srl);
          this.loading = true; 
          this.idUsuario =  this.storage.get('id');
          this.scanSubscriptionBol= true;
-         this.getCurrentCoordinates();
+         //this.getCurrentCoordinates()
          this.mostrarMap =false;
     });
-
+    
+    this.storage.get('ble').then(prods  => {
+         this.productos = prods;
+        if (this.productos) {
+            this.notificarProductoEncontrados(); // Enviar correo después de obtener los productos y mostrar el mapa
+        } 
+    })
   }
   options = {
     timeout: 10000, 
@@ -82,15 +108,10 @@ export class MapsPage implements OnInit {
   };
 
 
-
-
-
-
 getCurrentCoordinates() {
     this.geolocation.getCurrentPosition().then((resp:any) => {
      this.latitude = resp.coords.latitude;
       this.longitude = resp.coords.longitude;
-      console.log(this.latitude + " " +  this.longitude)
       this.loadMap();
      }).catch((error:any) => {
        console.log('Error getting location', error);
@@ -127,14 +148,12 @@ getCurrentCoordinates() {
   }
 
 
-
- 
   async loadMap() {
     try {
       setInterval(() => {
          this.loading = false;
          this.mostrarMap = true;
-       }, 1000);
+       }, 500);
       let googleMaps: any = await this.gmaps.loadGoogleMaps();
       this.googleMaps = googleMaps;
       const mapEl = this.mapElementRef.nativeElement;
@@ -289,6 +308,11 @@ getCurrentCoordinates() {
       this.renderer.addClass(mapEl, 'visible');
       this.addMarker();
       this._buscando = 'SafeBags'
+
+      this.loading = false;
+      this.mostrarMap = true;
+
+      
     } catch(e) {
       console.log(e);
     }
@@ -310,7 +334,7 @@ getCurrentCoordinates() {
     });
 
     marker.addListener('click', () => {
-      console.log('Se hizo clic en el marcador');
+       this.presentAlert();
     });
 
     const infoWindow = new googleMaps.InfoWindow({
@@ -321,21 +345,6 @@ getCurrentCoordinates() {
       
  }
   
-  
-
-
-    
-  async presentAlertError() {
-    const alert = await this.alertController.create({
-      header: 'el usuario es vacio ',
-      subHeader: 'A Sub Header Is Optional',
-      message: this.message,
-      buttons: ['Action'],
-    });
-
-    await alert.present();
-  }
-
   
 
  
@@ -350,14 +359,18 @@ getCurrentCoordinates() {
   }
 
 
+  
+
 // Función para crear un retraso usando promesas
 delay(ms: number) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
-buscarEstado(){
-    this.productoService.getProductoBySerial(this.serial).subscribe(resp=>{
+buscarEstado(srl:any){
+    this.productoService.getProductoBySerial(srl).subscribe(resp=>{
       if(resp.estado == 200){
         this.estado = resp.data[0].tipo_estado_id;
+        this.prod = resp.data[0];
+        this.loading = false;
         if(this.estado == EstadosBlueEmun.ACTIVO){
             this.urlIcono= 'assets/images/location-pin.png';
             this.estadoData = 'Activo'
@@ -365,9 +378,74 @@ buscarEstado(){
             this.urlIcono= 'assets/images/location-pin-perdido.png';
             this.estadoData = 'Extraviado'
         }
+        this.getCurrentCoordinates();
       }
     })
  }
-  
+   
 
+requestPermission() {
+      const permission = cordova.plugins.permissions.ACCESS_FINE_LOCATION;
+      if (cordova.plugins.permissions) {
+            cordova.plugins.permissions.requestPermission(permission, (status:any) => {
+              if (status.hasPermission) {
+                this.getCurrentCoordinates();
+              } else {
+                console.warn('Permiso denegado');
+              }
+            }, (error:any) => {
+              console.error('Error al solicitar permiso:', error);
+            
+            });
+      } else {
+        console.error("El plugin 'cordova-plugin-android-permissions' no está disponible.");
+      }
+    }
+
+    /**
+  * Funcion para informar en backgroud los productos encontrados que no 
+  * son de la propiedad del usuario pero estan perdidos
+  */
+  notificarProductoEncontrados(){
+    this.productos.forEach(e=>{
+        if(e.tipo_estado_id  == EstadosBlueEmun.PERDIDO){
+           // si esta perdido enviar un email 
+           this.email.asunto = "Hola!, te estamos buscando";
+           this.email.correo =  e.email;
+           this.email.nombre =  e.nombre_cliente;
+           this.email.tipoenvio  = "2" ;
+           this.email.mensaje = 'Alguien realizó una lectura de Ble';
+           this.email.link = 'https://www.google.com/maps?q=' +this.latitude +"," +this.longitude +"&z=22";
+           this.enviarMail();
+           
+        }
+        
+    })
+
+ }
+ enviarMail(){
+  this.emailService.send(this.email).subscribe(resp=>{
+          console.log('Enviar mapa')
+  },(error:any)=>{
+      
+  })
+  }
+
+  async presentAlert() {
+    this.message =  this.prod.serial + '\n' + (this.prod.tipo_estado_id == 2 ?'ACTIVO' : 'EXTRAVIADO')
+    const alert = await this.alertController.create({
+      header:  this.prod.descripcion,
+      subHeader: '',
+      message: this.message,
+      buttons: [
+        {
+            text: 'Volver',
+            handler: () => {
+          
+            }
+        },
+    ]
+    });
+    await alert.present();
+  }
 }

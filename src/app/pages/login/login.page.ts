@@ -44,6 +44,14 @@ export class LoginPage implements OnInit {
     this.password= "";
     this._sppiner = false;
     await this.storage.create();
+    const username = await this.storage.get('usuario');
+    const password = await this.storage.get('password');
+
+    if(username){
+      this.fromLogin.patchValue({ email: username, password: password });
+    }
+
+
   }
 
   onLogin(){
@@ -57,6 +65,8 @@ export class LoginPage implements OnInit {
              }, 5000); 
        }else{
           let id = resp.data.idusuario
+          this.storage.set('usuario', this.email);
+          this.storage.set('password', this.password);
           this.storage.set('access_token', resp.data.access_token);
           this.router.navigate(['/profile', id]);
           this._sppiner = false;

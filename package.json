@@ -22,6 +22,7 @@
     "@angular/platform-browser": "^17.0.2",
     "@angular/platform-browser-dynamic": "^17.0.2",
     "@angular/router": "^17.0.2",
+    "@awesome-cordova-plugins/android-permissions": "^6.7.0",
     "@awesome-cordova-plugins/barcode-scanner": "^6.6.0",
     "@awesome-cordova-plugins/core": "^6.6.0",
     "@capacitor/android": "^5.6.0",
@@ -33,6 +34,7 @@
     "@capacitor/status-bar": "5.0.6",
     "@ionic-native/ble": "^5.36.0",
     "@ionic-native/core": "^5.36.0",
+    "@ionic-native/diagnostic": "^5.36.0",
     "@ionic-native/geolocation": "^5.36.0",
     "@ionic-native/google-maps": "^5.5.0",
     "@ionic-native/native-geocoder": "^5.36.0",
@@ -42,6 +44,7 @@
     "@ionic/storage-angular": "^4.0.0",
     "@ungap/global-this": "^0.4.4",
     "cordova": "^12.0.0",
+    "cordova-plugin-android-permissions": "^1.1.5",
     "cordova-plugin-androidx": "^3.0.0",
     "cordova-plugin-androidx-adapter": "^1.1.3",
     "cordova-plugin-ble-central": "^1.7.2",
@@ -103,7 +106,8 @@
         "API_KEY_FOR_IOS": "AIzaSyC8XRq5g7SHVIpYIrEDAJg8dyHvMNSIfeA"
       },
       "phonegap-plugin-barcodescanner": {},
-      "cordova-plugin-ble-central": {}
+      "cordova-plugin-ble-central": {},
+      "cordova-plugin-android-permissions": {}
     },
     "platforms": [
       "android"
